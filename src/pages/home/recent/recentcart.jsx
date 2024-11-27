@@ -4,13 +4,13 @@ import { list } from "./data_recent"
 
 const RecentCard = () => {
     return (
-        <div className="content grid grid-cols-3 gap-4 mt-8">
+        <div className="content grid grid-cols-3 gap-8 mt-8 ">
             {list.map((val, index) => {
                 const { cover, category, location, name, price } = val
                 return (
-                    <div className="box shadow" key={index}>
+                    <div className="hover:-translate-y-1 hover:shadow-2xl rounded-xl cursor-pointer border-[2px] border-neutral-300" key={index}>
                         <div className="img">
-                            <img className="w-full h-64 object-cover" src={cover} alt="" />
+                            <img className="w-full h-64 object-cover rounded-xl over" src={cover} alt="" />
                         </div>
                         <div className="text pl-4">
                             <div className="category flex">

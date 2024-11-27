@@ -4,7 +4,7 @@ import React from "react";
 
 const Hero = () => {
     return (
-        <section className="relative bg-no-repeat bg-center bg-cover h-[90vh] w-full container pt-[30%] md:pt-0 bg-[url('../../../../src/assets/banner.jpg')]">
+        <section className="relative bg-no-repeat bg-center bg-cover  h-[90vh] w-full container pt-[30%] md:pt-0 bg-[url('../../../../src/assets/banner.jpg')]">
             <div className="relative z-10 pt-[15%] text-center">
                 <div className='heading'>
                     <h1 className="text-white text-[60px]">Search Your Next Parking Lots</h1>
