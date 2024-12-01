@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-unused-vars
-import React from "react"
+import React, { useState } from "react"
+import { Link } from "react-router"
 
 const footer = [
     {
@@ -48,7 +49,8 @@ const Footer = () => {
                             <h1 className='text-4xl'>Do You Have Questions ?</h1>
                             <p>We will help you to grow your career and growth.</p>
                         </div>
-                        <button className='btn5 bg-[#F5F5F5] text-green-600 py-3 px-6 rounded mr-[50px]'>Contact Us Today</button>
+                        <button className='btn5 bg-[#F5F5F5] text-green-600 py-3 px-6 rounded mr-[50px]'>
+                            <Link to={"/contact"}>Contact Us Today</Link>   </button>
                     </div>
                 </div>
             </section>
@@ -67,7 +69,8 @@ const Footer = () => {
                                 placeholder='Email Address'
                                 className='bg-white text-gray-800 py-3 px-6 w-full rounded-l-lg'
                             />
-                            <button className='bg-green-600 text-white py-3 px-6 rounded-r-lg'>Subscribe</button>
+                            <button className='bg-green-600 text-white py-3 px-6 rounded-r-lg'>
+                                Subscribe  </button>
                         </div>
                     </div>
 
