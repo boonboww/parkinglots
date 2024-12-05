@@ -1,40 +1,46 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useState } from 'react'
-import { Link } from 'react-router'
+import React from 'react';
+import { Link } from 'react-router';
+import { handleSubmit } from './connect';
 
 export const Login = () => {
   return (
     <div className='bg-white-300 flex items-center justify-center h-screen px-5 cursor-default'>
       <div className="flex gap-5 bg-white w-full h-[70%] max-w-[500px] p-6 rounded-lg shadow-[0_10px_30px_rgba(0,0,0,0.3)]">
 
-        <form className='w-full' id="mainForm" noValidate>
+        <form className='w-full formLogin' noValidate onSubmit={handleSubmit}>
           <h2 className='text-center mb-5 font-bold text-2xl'>Login</h2>
 
           <div className="relative mb-4 font-medium">
-            <label className='block mb-[5px]' htmlFor="phone">Phone</label>
-            <input className='w-full p-2 pr-10 border-2 border-[#ddd] rounded-lg outline-none' type="tel" id="phone" placeholder="Enter your phone" autoComplete="off" />
-            <i className="icon"></i>
+            <label className='block mb-[5px]' htmlFor="username">Phone</label>
+            <input className='w-full p-2 pr-10 border-2 border-[#ddd] rounded-lg outline-none'
+              name='phone_number'
+              type="tel"
+              id="phone_number"
+              placeholder="Enter your phone_number"
+              autoComplete="off" />
           </div>
 
           <div className="relative mb-6 font-medium">
             <label className='block mb-[5px]' htmlFor="password">Password</label>
-            <input className='w-full p-2 pr-10 border-2 border-[#ddd] rounded-lg outline-none' type="password" id="password" placeholder="Enter your password" autoComplete="off" />
-            <i className="absolute top-[50%] right-4 translate-y-[50%] cursor-pointer fa-regular fa-eye"></i>
+            <input className='w-full p-2 pr-10 border-2 border-[#ddd] rounded-lg outline-none'
+              name='password'
+              type="password"
+              id="password"
+              placeholder="Enter your password"
+              autoComplete="off" />
           </div>
+
           <div className='relative mb-6 font-medium flex gap-2 '>
-            <input className='w-4 ml-1' type='checkbox' />
-            <label>remember</label>
+            <input className='w-4 ml-1' name='termsconditions' type='checkbox' />
+            remember
           </div>
 
           <button className='w-full border-none p-2 font-medium bg-green-600 hover:bg-green-700 text-white rounded-lg cursor-pointer text-base transition-all duration-300 ease-in-out'
             type="submit">Submit</button>
-          <p className="text-center text-sm mt-4">Don't have an account? <Link to={'/register'} className="hover:underline font-bold">Sign up</Link></p>
-          <div className='flex flex-row text-center w-full mt-4'>
-            <div className='border-b-2 mb-2.5 mr-2 w-full'></div><div className='text-sm font-bold w-fit'>OR</div><div className='border-b-2 mb-2.5 ml-2 w-full'></div>
-          </div>
-          <button
 
-            className={`w-full mt-4 flex items-center justify-center gap-x-3 py-2.5 border rounded-lg text-sm font-medium `}>
+          <p className="text-center text-sm mt-4">Do not have an account? <Link to={'/register'} className="hover:underline font-bold">Sign up</Link></p>
+          <button className={`w-full mt-4 flex items-center justify-center gap-x-3 py-2.5 border rounded-lg text-sm font-medium`}>
             <svg className="w-5 h-5" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
               <g clipPath="url(#clip0_17_40)">
                 <path d="M47.532 24.5528C47.532 22.9214 47.3997 21.2811 47.1175 19.6761H24.48V28.9181H37.4434C36.9055 31.8988 35.177 34.5356 32.6461 36.2111V42.2078H40.3801C44.9217 38.0278 47.532 31.8547 47.532 24.5528Z" fill="#4285F4" />
@@ -48,11 +54,9 @@ export const Login = () => {
                 </clipPath>
               </defs>
             </svg>
-
           </button>
         </form>
-
       </div>
     </div>
-  )
-}
+  );
+};
