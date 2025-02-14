@@ -1,19 +1,17 @@
 // eslint-disable-next-line no-unused-vars
 import React from "react";
 
-
 const Hero = () => {
     return (
-        <section className="relative bg-no-repeat bg-center bg-cover  h-[90vh] w-full container pt-[30%] md:pt-0 bg-[url('../../../../src/assets/banner.jpg')]">
-            <div className="relative z-10 pt-[15%] text-center">
-                <div className='heading'>
+        <section className="relative bg-no-repeat bg-center bg-cover h-[90vh] w-full pt-[30%] md:pt-0 bg-[url('../../../../src/assets/banner.jpg')]">
+            <div className="relative z-10 pt-[15%] text-center w-full">
+                <div className="heading">
                     <h1 className="text-white text-[60px]">Search Your Next Parking Lots</h1>
                     <p className="text-white opacity-80">Find the most convenient and closest parking lot to you.</p>
                 </div>
-                
 
-                <form className="bg-white rounded-[10px] mt-[10px] flex mx-auto w-[90%] md:w-[60%]">
-                    <div className="p-[15px] border-l border-[rgba(128,128,128,0.2)] w-full md:w-auto">
+                <form className="bg-white rounded-[10px] mt-[10px] flex w-full max-w-[1200px] mx-auto">
+                    <div className="p-[15px] border-l border-[rgba(128,128,128,0.2)] w-full">
                         <span className="text-[14px] text-gray-500">City/Street</span>
                         <input
                             className="p-[10px] w-full border border-[rgba(128,128,128,0.2)] mt-[5px] rounded-[5px]"
@@ -21,7 +19,7 @@ const Hero = () => {
                             placeholder="Location"
                         />
                     </div>
-                    <div className="p-[15px] border-l border-[rgba(128,128,128,0.2)] w-full md:w-auto">
+                    <div className="p-[15px] border-l border-[rgba(128,128,128,0.2)] w-full">
                         <span className="text-[14px] text-gray-500">Price Range</span>
                         <input
                             className="p-[10px] w-full border border-[rgba(128,128,128,0.2)] mt-[5px] rounded-[5px]"
