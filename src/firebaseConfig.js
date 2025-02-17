@@ -1,26 +1,25 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-    // eslint-disable-next-line no-undef
-    apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-    // eslint-disable-next-line no-undef
-    authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-    // eslint-disable-next-line no-undef
-    databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL,
-    // eslint-disable-next-line no-undef
-    projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-    // eslint-disable-next-line no-undef
-    storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
-    // eslint-disable-next-line no-undef
-    messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-    // eslint-disable-next-line no-undef
-    appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  apiKey: "AIzaSyDTcJSGq9uboXuzEQ0XsraVyGNDXdl_f7k",
+  authDomain: "parkinglots-58ccf.firebaseapp.com",
+  projectId: "parkinglots-58ccf",
+  storageBucket: "parkinglots-58ccf.firebasestorage.app",
+  messagingSenderId: "877679727801",
+  appId: "1:877679727801:web:965f858f3ac88e0bad7768"
 };
 
 // Initialize Firebase
-// eslint-disable-next-line no-unused-vars
 const app = initializeApp(firebaseConfig);
+
+export const db = getFirestore(app);
+export const auth = getAuth(app);
+export const provider = new GoogleAuthProvider();
+

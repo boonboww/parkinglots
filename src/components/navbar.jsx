@@ -8,7 +8,7 @@ export const Navbar = () => {
         <div className="w-full text-white flex items-center bg-gray-900 h-[10vh] shadow-[0_5px_30px_rgba(0,22,84,0.1)] py-4 sticky top-0 z-[99999]">
 
             <div className="flex-1">
-                <h2 className='ml-8 bg-gradient-to-r from-blue-600 to-indigo-400 inline-block text-transparent bg-clip-text text-3xl font-bold '>SHOUND.</h2>
+                <h2 className='ml-8 bg-gradient-to-r from-blue-600 to-indigo-400 inline-block text-transparent bg-clip-text text-3xl font-bold '>Parking Lots</h2>
             </div>
 
 

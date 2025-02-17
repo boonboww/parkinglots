@@ -1,7 +1,7 @@
 import { Navbar } from "./components/navbar"
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Login } from "./pages/login/login";
-import { Register } from "./pages/register/register";
+import { Login } from "./pages/login";
+import { Register } from "./pages/register";
 import { Home } from "./pages/home/home";
 import Service from "./pages/services/service";
 import Price123 from "./pages/prices/prices";
