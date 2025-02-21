@@ -12,7 +12,9 @@ export const Login = () => {
   const signInWithGoogle = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
+        const profilePic = result.user.photoURL;
         localStorage.setItem("isAuth", "true"); // Lưu trạng thái đăng nhập
+        localStorage.setItem("profilePic", profilePic);
         alert("Đăng nhập thành công!");
         navigate("/"); // Chuyển sang trang chủ
       })
@@ -35,7 +37,7 @@ export const Login = () => {
 
   return (
     <div className="bg-white-300 flex items-center justify-center h-screen px-5 cursor-default">
-      <div className="flex gap-5 bg-white w-full h-[70%] max-w-[500px] p-6 rounded-lg shadow-[0_10px_30px_rgba(0,0,0,0.3)]">
+      <div className="flex relative gap-5 bg-white w-full h-[70%] max-w-[500px] p-6 rounded-lg shadow-[0_10px_30px_rgba(0,0,0,0.3)]">
         <form className="w-full formLogin" onSubmit={login}>
           <h2 className="text-center mb-5 font-bold text-2xl">Login</h2>
 
@@ -92,8 +94,10 @@ export const Login = () => {
             </Link>
           </p>
 
-          <p className="flex justify-center items-center mt-10">--Or continue with--</p>
-          <div className="flex justify-center items-center mt-10">
+          <p className="flex justify-center items-center my-4">
+            --Or continue with--
+          </p>
+          <div className="absolute left-[50%] translate-x-[-50%]">
             <GoogleButton onClick={signInWithGoogle} />
           </div>
         </form>

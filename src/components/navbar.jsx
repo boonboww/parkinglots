@@ -51,7 +51,7 @@ export const Navbar = () => {
         {user ? (
           // Nếu đã đăng nhập
           <div className="flex items-center gap-4">
-            <span className="text-sm font-medium">{user.email}</span>
+             <img src={localStorage.getItem("profilePic")} className="w-10 h-10 rounded-full" />
             <button
               onClick={handleLogout}
               className="no-underline mx-3 hover:text-green-400 duration-300"
