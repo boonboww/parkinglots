@@ -68,7 +68,7 @@ const Contact = () => {
               className="border border-gray-300 rounded-md px-4 py-2 w-full mb-4"
             ></textarea>
             <button className="bg-green-600 text-white py-2 px-6 rounded-md hover:bg-green-700">
-              Submit Request
+              Submit
             </button>
           </form>
         </div>
