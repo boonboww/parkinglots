@@ -4,6 +4,8 @@ import { Link, useNavigate } from "react-router-dom"; // Dùng useNavigate để
 import "react-datepicker/dist/react-datepicker.css";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebaseConfig";
+import Swal from 'sweetalert2'
+
 
 export const Register = () => {
   const [registerEmail, setRegisterEmail] = useState("");
@@ -14,10 +16,19 @@ export const Register = () => {
     event.preventDefault(); // Ngăn trang reload khi submit form
     try {
       await createUserWithEmailAndPassword(auth, registerEmail, registerPassword);
-      alert("Đăng ký thành công! Chuyển sang trang đăng nhập...");
+      Swal.fire({
+        title: "Registered successfully!",
+        icon: "success",
+        draggable: true
+      });
       navigate("/login"); // Chuyển sang trang đăng nhập
     } catch (error) {
-      alert("Lỗi đăng ký: " + error.message);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong!",
+        footer: error.message
+      });
     }
   };
 

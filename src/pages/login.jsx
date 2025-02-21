@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import GoogleButton from "react-google-button";
 import { signInWithPopup, signInWithEmailAndPassword } from "firebase/auth";
 import { auth, provider } from "../firebaseConfig";
+import Swal from 'sweetalert2'
+
 
 export const Login = () => {
   const [loginEmail, setLoginEmail] = useState("");
@@ -15,11 +17,15 @@ export const Login = () => {
         const profilePic = result.user.photoURL;
         localStorage.setItem("isAuth", "true"); // Lưu trạng thái đăng nhập
         localStorage.setItem("profilePic", profilePic);
-        alert("Đăng nhập thành công!");
         navigate("/"); // Chuyển sang trang chủ
       })
       .catch((error) => {
-        alert("Lỗi đăng nhập với Google: " + error.message);
+         Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Something went wrong!",
+                footer: error.message
+              });
       });
   };
 
@@ -28,10 +34,14 @@ export const Login = () => {
     try {
       await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
       localStorage.setItem("isAuth", "true"); // Lưu trạng thái đăng nhập
-      alert("Đăng nhập thành công!");
       navigate("/"); // Chuyển sang trang chủ
     } catch (error) {
-      alert("Lỗi đăng nhập: " + error.message);
+       Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Something went wrong!",
+              footer: error.message
+            });
     }
   };
 
