@@ -6,6 +6,7 @@ import { FiLogOut } from "react-icons/fi";
 
 export const Navbar = () => {
   const [user, setUser] = useState(null);
+  const [isMenuVisible, setIsMenuVisible] = useState(false); // Trạng thái điều khiển menu logout
 
   // Kiểm tra trạng thái đăng nhập khi component mount
   useEffect(() => {
@@ -20,9 +21,15 @@ export const Navbar = () => {
     try {
       await signOut(auth);
       setUser(null);
+      setIsMenuVisible(false); // Ẩn menu logout khi đã đăng xuất
     } catch (error) {
       console.error("Lỗi đăng xuất:", error);
     }
+  };
+
+  // Hàm để hiển thị/ẩn menu logout khi nhấn vào ảnh người dùng
+  const toggleMenu = () => {
+    setIsMenuVisible((prevState) => !prevState);
   };
 
   return (
@@ -33,7 +40,7 @@ export const Navbar = () => {
         </h2>
       </div>
 
-      <div className="flex justify-center">
+      <div className="flex justify-center flex-1 space-x-8">
         <Link
           to="/"
           className="no-underline mx-3 hover:text-green-400 duration-300"
@@ -60,21 +67,28 @@ export const Navbar = () => {
         </Link>
       </div>
 
-      <div className="flex-1 flex justify-end items-center">
+      <div className="flex-1 flex justify-end items-center gap-5 pr-8">
         {user ? (
           // Nếu đã đăng nhập
-          <div className="flex items-center gap-4">
+          <div className="relative">
             <img
               src={localStorage.getItem("profilePic")}
-              className="w-10 h-10 rounded-full"
+              alt="Profile"
+              className="w-12 h-12 rounded-full border-2 border-white shadow-lg object-cover cursor-pointer"
+              onClick={toggleMenu} // Khi nhấn vào ảnh, sẽ toggle menu
             />
-
-            <button
-              onClick={handleLogout}
-              className="flex items-center gap-3 p-3 hover:bg-gray-700 rounded cursor-pointer mr-[10px]"
-            >
-              <FiLogOut />
-            </button>
+            
+            {isMenuVisible && (
+              <div className="absolute right-0 mt-2 bg-gray-800 p-2 shadow-lg rounded-lg">
+              <button
+                onClick={handleLogout}
+                className="flex items-center justify-center p-3 hover:bg-red-600 hover:text-white rounded-full cursor-pointer transition duration-200 ease-in-out w-12 h-12"
+              >
+                <FiLogOut size={20} />
+              </button>
+            </div>
+            
+            )}
           </div>
         ) : (
           // Nếu chưa đăng nhập
