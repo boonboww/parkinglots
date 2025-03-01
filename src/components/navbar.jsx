@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { auth } from "../firebaseConfig"; // Import auth từ firebaseConfig.js
 import { signOut } from "firebase/auth";
+import { FiLogOut } from "react-icons/fi";
 
 export const Navbar = () => {
   const [user, setUser] = useState(null);
@@ -33,16 +34,28 @@ export const Navbar = () => {
       </div>
 
       <div className="flex justify-center">
-        <Link to="/" className="no-underline mx-3 hover:text-green-400 duration-300">
+        <Link
+          to="/"
+          className="no-underline mx-3 hover:text-green-400 duration-300"
+        >
           HOME
         </Link>
-        <Link to="/services" className="no-underline mx-3 hover:text-green-400 duration-300">
+        <Link
+          to="/services"
+          className="no-underline mx-3 hover:text-green-400 duration-300"
+        >
           SERVICES
         </Link>
-        <Link to="/price" className="no-underline mx-3 hover:text-green-400 duration-300">
+        <Link
+          to="/price"
+          className="no-underline mx-3 hover:text-green-400 duration-300"
+        >
           PRICING
         </Link>
-        <Link to="/contact" className="no-underline mx-3 hover:text-green-400 duration-300">
+        <Link
+          to="/contact"
+          className="no-underline mx-3 hover:text-green-400 duration-300"
+        >
           CONTACT
         </Link>
       </div>
@@ -51,21 +64,31 @@ export const Navbar = () => {
         {user ? (
           // Nếu đã đăng nhập
           <div className="flex items-center gap-4">
-             <img src={localStorage.getItem("profilePic")} className="w-10 h-10 rounded-full" />
+            <img
+              src={localStorage.getItem("profilePic")}
+              className="w-10 h-10 rounded-full"
+            />
+
             <button
               onClick={handleLogout}
-              className="no-underline mx-3 hover:text-green-400 duration-300"
+              className="flex items-center gap-3 p-3 hover:bg-gray-700 rounded cursor-pointer mr-[10px]"
             >
-              Logout
+              <FiLogOut />
             </button>
           </div>
         ) : (
           // Nếu chưa đăng nhập
           <>
-            <Link to="/login" className="no-underline mx-3 hover:text-green-400 duration-300">
+            <Link
+              to="/login"
+              className="no-underline mx-3 hover:text-green-400 duration-300"
+            >
               LOGIN
             </Link>
-            <Link to="/register" className="no-underline mx-3 hover:text-green-400 duration-300">
+            <Link
+              to="/register"
+              className="no-underline mx-3 hover:text-green-400 duration-300"
+            >
               REGISTER
             </Link>
           </>

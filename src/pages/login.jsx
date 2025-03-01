@@ -1,47 +1,55 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import GoogleButton from "react-google-button";
+import { useNavigate } from "react-router-dom";
 import { signInWithPopup, signInWithEmailAndPassword } from "firebase/auth";
 import { auth, provider } from "../firebaseConfig";
-import Swal from 'sweetalert2'
-
+import { getUserRole } from "../authService/"; // Import hàm lấy role
+import Swal from 'sweetalert2';
+import GoogleButton from "react-google-button";
 
 export const Login = () => {
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const navigate = useNavigate();
 
-  const signInWithGoogle = () => {
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        const profilePic = result.user.photoURL;
-        localStorage.setItem("isAuth", "true"); // Lưu trạng thái đăng nhập
-        localStorage.setItem("profilePic", profilePic);
-        navigate("/"); // Chuyển sang trang chủ
-      })
-      .catch((error) => {
-         Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: "Something went wrong!",
-                footer: error.message
-              });
+  // Đăng nhập bằng Google
+  const signInWithGoogle = async () => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      localStorage.setItem("isAuth", "true");
+      localStorage.setItem("profilePic", result.user.photoURL);
+
+      const userRole = await getUserRole();
+      Swal.fire({ title: "Login successful!", icon: "success" });
+
+      // Check the role and navigate accordingly
+      userRole === "admin" ? navigate("/admin") : navigate("/");
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Google Login Failed",
+        text: error.message
       });
+    }
   };
 
+  // Đăng nhập bằng Email & Password
   const login = async (event) => {
-    event.preventDefault(); // Ngăn reload trang khi submit
+    event.preventDefault();
     try {
       await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
-      localStorage.setItem("isAuth", "true"); // Lưu trạng thái đăng nhập
-      navigate("/"); // Chuyển sang trang chủ
+      const userRole = await getUserRole();
+
+      localStorage.setItem("isAuth", "true");
+      Swal.fire({ title: "Login successful!", icon: "success" });
+
+      // Check the role and navigate accordingly
+      userRole === "admin" ? navigate("/admin") : navigate("/");
     } catch (error) {
-       Swal.fire({
-              icon: "error",
-              title: "Oops...",
-              text: "Something went wrong!",
-              footer: error.message
-            });
+      Swal.fire({
+        icon: "error",
+        title: "Login Failed",
+        text: error.message
+      });
     }
   };
 
@@ -83,12 +91,6 @@ export const Login = () => {
             />
           </div>
 
-          {/* Remember Me Checkbox */}
-          <div className="relative mb-6 font-medium flex gap-2">
-            <input className="w-4 ml-1" type="checkbox" />
-            Remember Me
-          </div>
-
           {/* Submit Button */}
           <button
             className="w-full border-none p-2 font-medium bg-green-600 hover:bg-green-700 text-white rounded-lg cursor-pointer text-base transition-all duration-300 ease-in-out"
@@ -99,9 +101,9 @@ export const Login = () => {
 
           <p className="text-center text-sm mt-4">
             Do not have an account?{" "}
-            <Link to={"/register"} className="hover:underline font-bold">
+            <a href="/register" className="hover:underline font-bold">
               Sign up
-            </Link>
+            </a>
           </p>
 
           <p className="flex justify-center items-center my-4">

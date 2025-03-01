@@ -5,12 +5,12 @@ const Hero = () => {
     return (
         <section className="relative bg-no-repeat bg-center bg-cover h-[90vh] w-full pt-[30%] md:pt-0 bg-[url('../../../../src/assets/banner.jpg')]">
             <div className="relative z-10 pt-[15%] text-center w-full">
-                <div className="heading">
+                <div className="heading mt-[130px]">
                     <h1 className="text-white text-[60px]">Search Your Next Parking Lots</h1>
                     <p className="text-white opacity-80">Find the most convenient and closest parking lot to you.</p>
                 </div>
 
-                <form className="bg-white rounded-[10px] mt-[10px] flex w-full max-w-[1200px] mx-auto">
+                <form className="bg-[rgba(255,255,255,0.8)] rounded-[10px] mt-[10px] flex w-full max-w-[1200px] mx-auto">
                     <div className="p-[15px] border-l border-[rgba(128,128,128,0.2)] w-full">
                         <span className="text-[14px] text-gray-500">City/Street</span>
                         <input

@@ -1,27 +1,35 @@
-// eslint-disable-next-line no-unused-vars
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom"; // Dùng useNavigate để điều hướng
+import { Link, useNavigate } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebaseConfig";
-import Swal from 'sweetalert2'
-
+import { auth, db } from "../firebaseConfig";
+import { doc, setDoc } from "firebase/firestore";
+import Swal from "sweetalert2";
 
 export const Register = () => {
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
-  const navigate = useNavigate(); // Hook để điều hướng trang
+  const navigate = useNavigate();
 
   const register = async (event) => {
-    event.preventDefault(); // Ngăn trang reload khi submit form
+    event.preventDefault();
     try {
-      await createUserWithEmailAndPassword(auth, registerEmail, registerPassword);
+      const userCredential = await createUserWithEmailAndPassword(auth, registerEmail, registerPassword);
+      const user = userCredential.user;
+
+      // Lưu thông tin người dùng vào Firestore
+      await setDoc(doc(db, "users", user.uid), {
+        email: user.email,
+        role: "user", // Vai trò mặc định
+        createdAt: new Date().toISOString()
+      });
+
       Swal.fire({
         title: "Registered successfully!",
         icon: "success",
         draggable: true
       });
-      navigate("/login"); // Chuyển sang trang đăng nhập
+      navigate("/login");
     } catch (error) {
       Swal.fire({
         icon: "error",
@@ -38,11 +46,8 @@ export const Register = () => {
         <form className="w-full" id="mainForm" onSubmit={register}>
           <h2 className="text-center mb-5 text-2xl font-bold">Register</h2>
 
-          {/* Email Input */}
           <div className="relative mb-4">
-            <label className="block mb-[5px] font-medium" htmlFor="email">
-              Email
-            </label>
+            <label className="block mb-[5px] font-medium" htmlFor="email">Email</label>
             <input
               className="w-full p-2 pr-10 border-2 border-[#ddd] rounded-lg outline-none"
               type="email"
@@ -55,11 +60,8 @@ export const Register = () => {
             />
           </div>
 
-          {/* Password Input */}
           <div className="relative mb-6">
-            <label className="block mb-[5px] font-medium" htmlFor="password">
-              Password
-            </label>
+            <label className="block mb-[5px] font-medium" htmlFor="password">Password</label>
             <input
               className="w-full p-2 pr-10 border-2 border-[#ddd] rounded-lg outline-none"
               type="password"
@@ -72,7 +74,6 @@ export const Register = () => {
             />
           </div>
 
-          {/* Submit Button */}
           <button
             className="w-full border-none p-2 bg-green-600 hover:bg-green-700 text-white rounded-lg cursor-pointer text-base transition-all duration-300 ease-in-out"
             type="submit"
@@ -80,12 +81,8 @@ export const Register = () => {
             Submit
           </button>
 
-          {/* Link to login page */}
           <div className="text-sm text-center mt-4">
-            Already have an account?{" "}
-            <Link to="/login" className="text-center text-sm hover:underline font-bold">
-              Continue
-            </Link>
+            Already have an account? <Link to="/login" className="text-center text-sm hover:underline font-bold">Continue</Link>
           </div>
         </form>
       </div>
