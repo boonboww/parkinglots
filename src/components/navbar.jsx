@@ -67,7 +67,7 @@ export const Navbar = () => {
         </Link>
       </div>
 
-      <div className="flex-1 flex justify-end items-center gap-5 pr-8">
+      <div className="flex-1 flex justify-end items-center gap-5 pr-12">
         {user ? (
           // Nếu đã đăng nhập
           <div className="relative">
@@ -77,17 +77,17 @@ export const Navbar = () => {
               className="w-12 h-12 rounded-full border-2 border-white shadow-lg object-cover cursor-pointer"
               onClick={toggleMenu} // Khi nhấn vào ảnh, sẽ toggle menu
             />
-            
+
             {isMenuVisible && (
-              <div className="absolute right-0 mt-2 bg-gray-800 p-2 shadow-lg rounded-lg">
-              <button
-                onClick={handleLogout}
-                className="flex items-center justify-center p-3 hover:bg-red-600 hover:text-white rounded-full cursor-pointer transition duration-200 ease-in-out w-12 h-12"
-              >
-                <FiLogOut size={20} />
-              </button>
-            </div>
-            
+              <div className="absolute right-[50%] translate-x-[50%] mt-2 bg-gray-800 p-2 shadow-lg rounded-lg">
+                <button
+                  onClick={handleLogout}
+                  className="flex items-center justify-center p-3 hover:bg-red-600 hover:text-white rounded-full cursor-pointer transition duration-200 ease-in-out w-24 h-12"
+                >
+                  <span>logout</span>  
+                    <FiLogOut size={20} />
+                </button>
+              </div>
             )}
           </div>
         ) : (
