@@ -3,43 +3,49 @@ import { FiEdit, FiTrash } from "react-icons/fi";
 
 function User_admin() {
   const users = [
-    { id: 1, name: "John Doe", email: "john@example.com", role: "Admin" },
-    { id: 2, name: "Jane Smith", email: "jane@example.com", role: "User" },
+    { id: 1, name: "John Doe", email: "john@example.com", role: "Admin",status: true },
+    { id: 2, name: "Jane Smith", email: "jane@example.com", role: "User",status: true },
     {
       id: 3,
       name: "Michael Johnson",
       email: "michael@example.com",
       role: "User",
+      status: true 
     },
     {
       id: 4,
       name: "Jane Cooper",
       email: "jane@microsoft.com",
       role: "User",
+      status: false
     },
     {
       id: 5,
       name: "Floyd Miles",
       email: "floyd@yahoo.com",
       role: "User",
+      status: true 
     },
     {
       id: 6,
       name: "Ronald Richards",
       email: "Ronald@example.com",
       role: "User",
+      status: false
     },
     {
       id: 7,
       name: "Marvin McKinney",
       email: "Marvin@example.com",
       role: "User",
+      status: false
     },
     {
       id: 8,
       name: "Jerome Bell",
       email: "Jerome@example.com",
       role: "User",
+      status: true 
     },
   ];
 
@@ -80,6 +86,7 @@ function User_admin() {
                 <th className="text-left p-3">Name</th>
                 <th className="text-left p-3">Email</th>
                 <th className="text-left p-3">Role</th>
+                <th className="text-left p-3">Status</th>
                 <th className="text-center p-3">Actions</th>
               </tr>
             </thead>
@@ -89,6 +96,15 @@ function User_admin() {
                   <td className="p-6">{user.name}</td>
                   <td className="p-6">{user.email}</td>
                   <td className="p-6">{user.role}</td>
+                  <td className="p-6">
+                    <span
+                      className={` px-5 py-1 rounded-xl ${
+                        user.status ? "bg-[#D3FFE7] text-[#00AC4F]" : "bg-[#FFEDF1] text-[#FF3366]"
+                      }`}
+                    >
+                      {user.status ? "Active" : "Inactive"}
+                    </span>
+                    </td>
                   <td className="p-6 text-center">
                     <button className="text-blue-500 hover:text-blue-700 mr-3">
                       <FiEdit />
