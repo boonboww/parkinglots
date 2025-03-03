@@ -43,25 +43,25 @@ export const Navbar = () => {
       <div className="flex justify-center flex-1 space-x-8">
         <Link
           to="/"
-          className="no-underline mx-3 hover:text-green-400 duration-300"
+          className="no-underline mx-3 hover:text-blue-700 duration-300"
         >
           HOME
         </Link>
         <Link
           to="/services"
-          className="no-underline mx-3 hover:text-green-400 duration-300"
+          className="no-underline mx-3 hover:text-blue-700 duration-300"
         >
           SERVICES
         </Link>
         <Link
           to="/price"
-          className="no-underline mx-3 hover:text-green-400 duration-300"
+          className="no-underline mx-3 hover:text-blue-700 duration-300"
         >
           PRICING
         </Link>
         <Link
           to="/contact"
-          className="no-underline mx-3 hover:text-green-400 duration-300"
+          className="no-underline mx-3 hover:text-blue-700 duration-300"
         >
           CONTACT
         </Link>

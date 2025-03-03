@@ -44,7 +44,7 @@ const PriceCard = () => {
                     {/* Nút Start */}
                     <button
                         className='mt-6 w-full py-3 text-lg font-semibold rounded-lg transition-all 
-                        bg-green-500 text-white hover:bg-green-600'
+                        bg-blue-600 text-white hover:bg-blue-700'
                     >
                         Start {item.plan}
                     </button>
