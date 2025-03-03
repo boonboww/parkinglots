@@ -6,22 +6,19 @@ import Settings from "./setting";
 
 function Main_admin() {
   return (
-    <div className="flex-1 flex flex-col">
+    <div className="bg-[#F9FBFF] flex-1 flex flex-col px-16">
       {/* Header */}
-      <header className="bg-white p-4 shadow-md flex justify-between items-center">
-        <h2 className="text-xl font-semibold">Admin Panel</h2>
-        <div className="flex items-center gap-4">
-          <span className="text-gray-700">Admin</span>
-          <img
-            src="https://via.placeholder.com/40"
-            alt="Profile"
-            className="w-10 h-10 rounded-full border"
-          />
+      <header className="pt-12  flex justify-between items-center">
+        <h2 className="text-2xl font-semibold">Admin Panel</h2>
+        <div className="relative">
+        <input type="text" placeholder="Search" className=" border pl-10 py-2 rounded-xl shadow-[0px 10px 60px 0px rgba(226, 236, 249, 0.50)]" />
+        <i class="fa-solid fa-magnifying-glass text-[#7E7E7E] absolute top-[50%] translate-y-[-50%] left-2"></i>
         </div>
+      
       </header>
 
       {/* Content Area */}
-      <main className="flex-1 p-6">
+      <main className="flex-1 mt-6">
         <Routes>
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="useradmin" element={<User_admin />} />

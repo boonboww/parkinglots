@@ -28,8 +28,8 @@ function Navbar_admin() {
   };
 
   return (
-    <div className="w-64 bg-gray-800 text-white p-5 flex flex-col">
-      <h1 className="text-2xl font-bold mb-6">Admin Panel</h1>
+    <div className="w-64 bg-white text-black p-5 flex flex-col ">
+      <h1 className="text-2xl font-bold mb-6 text-center">Admin Panel</h1>
       <nav className="flex-1">
         <ul>
           <li className="flex items-center gap-3 p-3 hover:bg-gray-700 rounded cursor-pointer">

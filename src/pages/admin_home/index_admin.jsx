@@ -9,6 +9,7 @@ const Index_admin = () => {
         <Navbar_admin />
         <Main_admin />
       </div>
+    
 
   );
 };
