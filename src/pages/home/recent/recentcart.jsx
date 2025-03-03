@@ -4,43 +4,36 @@ import { list } from "./data_recent";
 
 const RecentCard = () => {
   return (
-    <div className="content grid grid-cols-3 gap-8 mt-8 ">
+    <div className="content grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-8 ">
       {list.map((val, index) => {
-        const { cover, category, location, name, price } = val;
+        const { cover, category, location, name} = val;
         return (
           <div
-            className="hover:-translate-y-1 hover:shadow-2xl rounded-xl cursor-pointer border-[2px] border-neutral-300"
+            className="hover:-translate-y-1 hover:shadow-lg rounded-xl cursor-pointer border-2 border-neutral-300 overflow-hidden transition-all"
             key={index}
           >
-            <div className="img">
+            <div className="relative">
               <img
-                className="w-full h-64 object-cover rounded-xl over"
+                className="w-full h-64 object-cover rounded-t-xl"
                 src={cover}
-                alt=""
+                alt={name}
               />
+              <div className="absolute top-4 left-4 bg-opacity-75 bg-black text-white px-3 py-1 rounded-lg">
+                {category}
+              </div>
             </div>
-            <div className="text pl-4  flex">
+
+            <div className="text p-4 flex flex-col justify-between h-full">
               <div>
-                <div className="category flex">
-                  <span
-                    style={{
-                      background:
-                        category === "Empty" ? "#25b5791a" : "#ff98001a",
-                      color: category === "Empty" ? "#25b579" : "#ff9800",
-                    }}
-                  >
-                    {category}
-                  </span>
-                </div>
-                <h4>{name}</h4>
-                <p className="flex">
+                <h4 className="text-xl font-semibold">{name}</h4>
+                <p className="flex items-center text-gray-600 mt-2">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
                     strokeWidth={1.5}
                     stroke="currentColor"
-                    className="size-5 mr-1"
+                    className="w-5 h-5 mr-2"
                   >
                     <path
                       strokeLinecap="round"
@@ -55,12 +48,6 @@ const RecentCard = () => {
                   </svg>
                   {location}
                 </p>
-              </div>
-
-              <div>
-                <button className="ml-auto mr-[-50px] hover:bg-gray-200">
-                  {price}
-                </button>
               </div>
             </div>
           </div>

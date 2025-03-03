@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";  // Đảm bảo đã import Routes và Route
+import { Routes, Route } from "react-router-dom";  
 import Dashboard from "./dashboard";
 import User_admin from "./user_admin";
 import Settings from "./setting";

@@ -5,9 +5,10 @@ import { Featured } from "../home/featured/featured"
 
 const Service = () => {
     return (
-        <section className='services' style={{ width: "100vw", overflowX: "hidden" }}>
-            <Back name='Services' title='Services - All Services' cover={img} />
-            <div className='featured' style={{ width: "100%" }}>
+        <section className="w-screen overflow-hidden">
+            <Back name="Services" title="Services - All Services" cover={img || "default-image.jpg"} />
+
+            <div className="w-full max-w-7xl mx-auto px-4 md:px-8">
                 <Featured />
             </div>
         </section>
