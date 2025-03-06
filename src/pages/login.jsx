@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { signInWithPopup, signInWithEmailAndPassword } from "firebase/auth";
-import { auth, provider } from "../firebaseConfig";
-import { getUserRole } from "../authService/"; // Import hàm lấy role
-import Swal from 'sweetalert2';
+import { auth, provider, db } from "../firebaseConfig";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import Swal from "sweetalert2";
 import GoogleButton from "react-google-button";
 
 export const Login = () => {
@@ -11,108 +11,126 @@ export const Login = () => {
   const [loginPassword, setLoginPassword] = useState("");
   const navigate = useNavigate();
 
+  // Hàm lấy role của user từ Firestore
+  const getUserRole = async (uid) => {
+    try {
+      const userDoc = await getDoc(doc(db, "users", uid));
+      return userDoc.exists() ? userDoc.data().role : "user"; // Mặc định "user"
+    } catch (error) {
+      console.error("Error fetching user role:", error);
+      return "user";
+    }
+  };
+
+  // Đăng nhập bằng Email/Password
+  const login = async (event) => {
+    event.preventDefault();
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
+      const user = userCredential.user;
+
+      // Kiểm tra xác minh email
+      if (!user.emailVerified) {
+        Swal.fire({
+          icon: "warning",
+          title: "Email not verified",
+          text: "Please check your email and verify your account before logging in.",
+        });
+        return;
+      }
+
+      const userRole = await getUserRole(user.uid);
+      localStorage.setItem("isAuth", "true");
+      localStorage.setItem("userRole", userRole);
+
+      Swal.fire({ title: "Login successful!", icon: "success" });
+
+      // Điều hướng theo role
+      userRole === "admin" ? navigate("/admin") : navigate("/");
+    } catch (error) {
+      Swal.fire({ icon: "error", title: "Login Failed", text: error.message });
+    }
+  };
+
   // Đăng nhập bằng Google
   const signInWithGoogle = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
-      localStorage.setItem("isAuth", "true");
-      localStorage.setItem("profilePic", result.user.photoURL);
+      const user = result.user;
 
-      const userRole = await getUserRole();
+      // Kiểm tra xem user đã tồn tại trong Firestore chưa
+      const userDoc = await getDoc(doc(db, "users", user.uid));
+      if (!userDoc.exists()) {
+        await setDoc(doc(db, "users", user.uid), {
+          email: user.email,
+          role: "user",
+          createdAt: new Date().toISOString(),
+        });
+      }
+
+      const userRole = await getUserRole(user.uid);
+      localStorage.setItem("isAuth", "true");
+      localStorage.setItem("profilePic", user.photoURL);
+      localStorage.setItem("userRole", userRole);
+
       Swal.fire({ title: "Login successful!", icon: "success" });
 
-      // Check the role and navigate accordingly
+      // Điều hướng theo role
       userRole === "admin" ? navigate("/admin") : navigate("/");
     } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "Google Login Failed",
-        text: error.message
-      });
-    }
-  };
-
-  // Đăng nhập bằng Email & Password
-  const login = async (event) => {
-    event.preventDefault();
-    try {
-      await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
-      const userRole = await getUserRole();
-
-      localStorage.setItem("isAuth", "true");
-      Swal.fire({ title: "Login successful!", icon: "success" });
-
-      // Check the role and navigate accordingly
-      userRole === "admin" ? navigate("/admin") : navigate("/");
-    } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "Login Failed",
-        text: error.message
-      });
+      Swal.fire({ icon: "error", title: "Google Login Failed", text: error.message });
     }
   };
 
   return (
-    <div className="bg-white-300 flex items-center justify-center h-screen px-5 cursor-default">
-      <div className="flex relative gap-5 bg-white w-full h-[70%] max-w-[500px] p-6 rounded-lg shadow-[0_10px_30px_rgba(0,0,0,0.3)]">
-        <form className="w-full formLogin" onSubmit={login}>
-          <h2 className="text-center mb-5 font-bold text-2xl">Login</h2>
-
-          {/* Email Input */}
-          <div className="relative mb-4 font-medium">
-            <label className="block mb-[5px]" htmlFor="email_address">
-              Email address
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">
+      <div className="bg-white shadow-lg rounded-xl p-8 w-full max-w-md">
+        <h2 className="text-center text-3xl font-semibold text-gray-800 mb-6">Login</h2>
+        <form onSubmit={login} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-600" htmlFor="email_address">
+              Email Address
             </label>
             <input
-              className="w-full p-2 pr-10 border-2 border-[#ddd] rounded-lg outline-none"
               type="email"
               id="email_address"
-              placeholder="Enter your email address"
-              onChange={(event) => setLoginEmail(event.target.value)}
-              autoComplete="off"
+              className="w-full p-3 mt-1 border border-gray-300 rounded-lg focus:ring focus:ring-blue-300"
+              placeholder="Enter your email"
+              onChange={(e) => setLoginEmail(e.target.value)}
               required
             />
           </div>
-
-          {/* Password Input */}
-          <div className="relative mb-6 font-medium">
-            <label className="block mb-[5px]" htmlFor="password">
+          <div>
+            <label className="block text-sm font-medium text-gray-600" htmlFor="password">
               Password
             </label>
             <input
-              className="w-full p-2 pr-10 border-2 border-[#ddd] rounded-lg outline-none"
               type="password"
               id="password"
+              className="w-full p-3 mt-1 border border-gray-300 rounded-lg focus:ring focus:ring-blue-300"
               placeholder="Enter your password"
-              onChange={(event) => setLoginPassword(event.target.value)}
-              autoComplete="off"
+              onChange={(e) => setLoginPassword(e.target.value)}
               required
             />
           </div>
-
-          {/* Submit Button */}
           <button
-            className="w-full border-none p-2 font-medium bg-green-600 hover:bg-green-700 text-white rounded-lg cursor-pointer text-base transition-all duration-300 ease-in-out"
             type="submit"
+            className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition"
           >
-            Submit
+            Login
           </button>
-
-          <p className="text-center text-sm mt-4">
-            Do not have an account?{" "}
-            <a href="/register" className="hover:underline font-bold">
-              Sign up
-            </a>
-          </p>
-
-          <p className="flex justify-center items-center my-4">
-            --Or continue with--
-          </p>
-          <div className="absolute left-[50%] translate-x-[-50%]">
-            <GoogleButton onClick={signInWithGoogle} />
-          </div>
         </form>
+        <p className="text-center text-sm text-gray-500 mt-4">
+          Don’t have an account? <a href="/register" className="text-blue-600 hover:underline">Sign up</a>
+        </p>
+        {/* <div className="flex items-center my-6">
+          <div className="flex-grow h-px bg-gray-300"></div>
+          <span className="px-4 text-gray-500 text-sm">Or continue with</span>
+          <div className="flex-grow h-px bg-gray-300"></div>
+        </div>
+        <div className="flex justify-center">
+          <GoogleButton onClick={signInWithGoogle} />
+        </div> */}
       </div>
     </div>
   );

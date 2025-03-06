@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "react-datepicker/dist/react-datepicker.css";
-import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth"; // Thêm sendEmailVerification
-import { auth, db } from "../firebaseConfig";
-import { doc, setDoc } from "firebase/firestore";
+import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
+import { auth } from "../firebaseConfig";
 import Swal from "sweetalert2";
 
 export const Register = () => {
@@ -14,91 +12,57 @@ export const Register = () => {
   const register = async (event) => {
     event.preventDefault();
     try {
-      // Tạo tài khoản người dùng
       const userCredential = await createUserWithEmailAndPassword(auth, registerEmail, registerPassword);
       const user = userCredential.user;
 
-      // Gửi email xác minh
+      // Gửi email xác nhận
       await sendEmailVerification(user);
-      
-      // Lưu thông tin người dùng vào Firestore
-      await setDoc(doc(db, "users", user.uid), {
-        email: user.email,
-        role: "user", // Vai trò mặc định
-        createdAt: new Date().toISOString(),
-      });
 
-      // Hiển thị thông báo thành công
       Swal.fire({
-        title: "Registered successfully!",
-        text: "Please check your email to verify your account.",
+        title: "Đăng ký thành công!",
+        text: "Vui lòng kiểm tra email để xác minh tài khoản trước khi đăng nhập.",
         icon: "success",
-        draggable: true,
       });
       navigate("/login");
     } catch (error) {
-      // Hiển thị thông báo lỗi
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Something went wrong!",
-        footer: error.message,
-      });
+      Swal.fire({ icon: "error", title: "Oops...", text: error.message });
     }
   };
 
   return (
-    <div className="bg-white-300 flex items-center justify-center h-screen px-5 font-medium">
-      <div className="flex gap-5 bg-white w-full max-w-[500px] p-6 rounded-lg shadow-[0_10px_30px_rgba(0,0,0,0.3)]">
-        <form className="w-full" id="mainForm" onSubmit={register}>
-          <h2 className="text-center mb-5 text-2xl font-bold">Register</h2>
-
-          <div className="relative mb-4">
-            <label className="block mb-[5px] font-medium" htmlFor="email">
-              Email
-            </label>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">
+      <div className="bg-white shadow-lg rounded-xl p-8 w-full max-w-md">
+        <h2 className="text-center text-3xl font-semibold text-gray-800 mb-6">Register</h2>
+        <form onSubmit={register} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-600" htmlFor="email">Email</label>
             <input
-              className="w-full p-2 pr-10 border-2 border-[#ddd] rounded-lg outline-none"
               type="email"
               id="email"
-              name="email"
-              placeholder="Enter your email"
-              onChange={(event) => setRegisterEmail(event.target.value)}
-              autoComplete="off"
+              className="w-full p-3 mt-1 border border-gray-300 rounded-lg focus:ring focus:ring-blue-300"
+              placeholder="Nhập email của bạn"
+              onChange={(e) => setRegisterEmail(e.target.value)}
               required
             />
           </div>
-
-          <div className="relative mb-6">
-            <label className="block mb-[5px] font-medium" htmlFor="password">
-              Password
-            </label>
+          <div>
+            <label className="block text-sm font-medium text-gray-600" htmlFor="password">Mật khẩu</label>
             <input
-              className="w-full p-2 pr-10 border-2 border-[#ddd] rounded-lg outline-none"
               type="password"
               id="password"
-              name="password"
-              placeholder="Enter your password"
-              autoComplete="off"
-              onChange={(event) => setRegisterPassword(event.target.value)}
+              className="w-full p-3 mt-1 border border-gray-300 rounded-lg focus:ring focus:ring-blue-300"
+              placeholder="Nhập mật khẩu"
+              onChange={(e) => setRegisterPassword(e.target.value)}
               required
             />
           </div>
-
-          <button
-            className="w-full border-none p-2 bg-green-600 hover:bg-green-700 text-white rounded-lg cursor-pointer text-base transition-all duration-300 ease-in-out"
-            type="submit"
-          >
-            Submit
+          <button type="submit" className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
+            Đăng ký
           </button>
-
-          <div className="text-sm text-center mt-4">
-            Already have an account?{" "}
-            <Link to="/login" className="text-center text-sm hover:underline font-bold">
-              Continue
-            </Link>
-          </div>
         </form>
+        <p className="text-center text-sm text-gray-500 mt-4">
+          Đã có tài khoản? <Link to="/login" className="text-blue-600 hover:underline">Đăng nhập</Link>
+        </p>
       </div>
     </div>
   );
