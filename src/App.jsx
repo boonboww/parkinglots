@@ -11,6 +11,9 @@ import Dashboard from "./pages/admin_home/dashboard";  // Import các trang con
 import User_admin from "./pages/admin_home/user_admin";
 import Settings from "./pages/admin_home/setting";
 import Main_admin from "./pages/admin_home/main_admin";
+import Pay from "./pages/pay/pay";
+import Payment from "./pages/pay/payment";
+import Feedback from "./pages/feedback/feedback";
 
 function App() {
   return (
@@ -38,6 +41,9 @@ function AppRoutes() {
         <Route path="/services" element={<Service />} />
         <Route path="/price" element={<Price123 />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/payment" element={<Payment />} />
+          <Route path="/pay" element={<Pay />} />
+          <Route path="/feedback" element={<Feedback />} />
 
         {/* Admin Routes */}
         <Route path="/admin" element={<Index_admin />}>

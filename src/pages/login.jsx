@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { signInWithPopup, signInWithEmailAndPassword } from "firebase/auth";
-import { auth, provider, db } from "../firebaseConfig";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth, db } from "../firebaseConfig";
+import { doc, getDoc } from "firebase/firestore"; // Để lấy dữ liệu người dùng từ Firestore
 import Swal from "sweetalert2";
-import GoogleButton from "react-google-button";
 
 export const Login = () => {
   const [loginEmail, setLoginEmail] = useState("");
@@ -39,6 +38,7 @@ export const Login = () => {
         return;
       }
 
+      // Kiểm tra thông tin người dùng trong Firestore
       const userRole = await getUserRole(user.uid);
       localStorage.setItem("isAuth", "true");
       localStorage.setItem("userRole", userRole);
@@ -49,36 +49,6 @@ export const Login = () => {
       userRole === "admin" ? navigate("/admin") : navigate("/");
     } catch (error) {
       Swal.fire({ icon: "error", title: "Login Failed", text: error.message });
-    }
-  };
-
-  // Đăng nhập bằng Google
-  const signInWithGoogle = async () => {
-    try {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-
-      // Kiểm tra xem user đã tồn tại trong Firestore chưa
-      const userDoc = await getDoc(doc(db, "users", user.uid));
-      if (!userDoc.exists()) {
-        await setDoc(doc(db, "users", user.uid), {
-          email: user.email,
-          role: "user",
-          createdAt: new Date().toISOString(),
-        });
-      }
-
-      const userRole = await getUserRole(user.uid);
-      localStorage.setItem("isAuth", "true");
-      localStorage.setItem("profilePic", user.photoURL);
-      localStorage.setItem("userRole", userRole);
-
-      Swal.fire({ title: "Login successful!", icon: "success" });
-
-      // Điều hướng theo role
-      userRole === "admin" ? navigate("/admin") : navigate("/");
-    } catch (error) {
-      Swal.fire({ icon: "error", title: "Google Login Failed", text: error.message });
     }
   };
 
@@ -123,14 +93,6 @@ export const Login = () => {
         <p className="text-center text-sm text-gray-500 mt-4">
           Don’t have an account? <a href="/register" className="text-blue-600 hover:underline">Sign up</a>
         </p>
-        {/* <div className="flex items-center my-6">
-          <div className="flex-grow h-px bg-gray-300"></div>
-          <span className="px-4 text-gray-500 text-sm">Or continue with</span>
-          <div className="flex-grow h-px bg-gray-300"></div>
-        </div>
-        <div className="flex justify-center">
-          <GoogleButton onClick={signInWithGoogle} />
-        </div> */}
       </div>
     </div>
   );

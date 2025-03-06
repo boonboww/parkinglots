@@ -1,108 +1,92 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { auth } from "../firebaseConfig"; // Import auth từ firebaseConfig.js
-import { signOut } from "firebase/auth";
-import { FiLogOut } from "react-icons/fi";
+import React, { useEffect, useState } from "react"; // import các hook React và useState, useEffect.
+import { Link } from "react-router-dom"; // import Link từ react-router-dom để điều hướng trang.
+import { auth } from "../firebaseConfig"; // import đối tượng auth từ firebaseConfig.
+import { signOut } from "firebase/auth"; // import function signOut để đăng xuất người dùng.
+import { FiLogOut, FiShoppingCart } from "react-icons/fi"; // import các icon từ react-icons.
 
 export const Navbar = () => {
-  const [user, setUser] = useState(null);
-  const [isMenuVisible, setIsMenuVisible] = useState(false); // Trạng thái điều khiển menu logout
+  const [user, setUser] = useState(null); // State để lưu trữ thông tin người dùng đã đăng nhập.
+  const [isMenuVisible, setIsMenuVisible] = useState(false); // State để điều khiển việc hiển thị menu dropdown.
 
-  // Kiểm tra trạng thái đăng nhập khi component mount
+  // useEffect hook theo dõi trạng thái đăng nhập của người dùng
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      setUser(user);
+      setUser(user); // Cập nhật state user khi có sự thay đổi trạng thái đăng nhập.
     });
-    return () => unsubscribe(); // Hủy lắng nghe khi component unmount
+    return () => unsubscribe(); // cleanup để hủy đăng ký theo dõi khi component bị hủy.
   }, []);
 
-  // Hàm logout
+  // Function để xử lý việc đăng xuất
   const handleLogout = async () => {
     try {
-      await signOut(auth);
-      setUser(null);
-      setIsMenuVisible(false); // Ẩn menu logout khi đã đăng xuất
+      await signOut(auth); // Gọi phương thức signOut từ Firebase để đăng xuất.
+      setUser(null); // Reset state user sau khi đăng xuất.
+      setIsMenuVisible(false); // Ẩn menu khi đăng xuất.
     } catch (error) {
-      console.error("Lỗi đăng xuất:", error);
+      console.error("Lỗi đăng xuất:", error); // Hiển thị lỗi nếu đăng xuất không thành công.
     }
   };
 
-  // Hàm để hiển thị/ẩn menu logout khi nhấn vào ảnh người dùng
-  const toggleMenu = () => {
-    setIsMenuVisible((prevState) => !prevState);
-  };
-
   return (
-    <div className="w-full text-white flex items-center bg-gray-900 h-[10vh] shadow-[0_5px_30px_rgba(0,22,84,0.1)] py-4 sticky top-0 z-[99999]">
+    <div className="w-full text-white flex items-center bg-gray-900 h-[10vh] shadow-lg py-4 sticky top-0 z-50">
       <div className="flex-1">
+        {/* Logo của trang web */}
         <h2 className="ml-8 bg-gradient-to-r from-blue-600 to-indigo-400 inline-block text-transparent bg-clip-text text-3xl font-bold">
           Parking Lots
         </h2>
       </div>
-
       <div className="flex justify-center flex-1 space-x-8">
-        <Link
-          to="/"
-          className="no-underline mx-3 hover:text-blue-700 duration-300"
-        >
+        {/* Các liên kết menu */}
+        <Link to="/" className="hover:text-blue-700 duration-300">
           HOME
         </Link>
-        <Link
-          to="/services"
-          className="no-underline mx-3 hover:text-blue-700 duration-300"
-        >
+        <Link to="/services" className="hover:text-blue-700 duration-300">
           SERVICES
         </Link>
-        <Link
-          to="/price"
-          className="no-underline mx-3 hover:text-blue-700 duration-300"
-        >
+        <Link to="/price" className="hover:text-blue-700 duration-300">
           PRICING
         </Link>
-        <Link
-          to="/contact"
-          className="no-underline mx-3 hover:text-blue-700 duration-300"
-        >
+        <Link to="/contact" className="hover:text-blue-700 duration-300">
           CONTACT
         </Link>
       </div>
-
-      <div className="flex-1 flex justify-end items-center gap-5 pr-12">
+      <div className="flex-1 flex justify-end items-center gap-5 pr-12 relative">
         {user ? (
-          // Nếu đã đăng nhập
           <div className="relative">
-            <img
-              src={localStorage.getItem("profilePic")}
-              alt="Profile"
-              className="w-12 h-12 rounded-full border-2 border-white shadow-lg object-cover cursor-pointer"
-              onClick={toggleMenu} // Khi nhấn vào ảnh, sẽ toggle menu
-            />
-
+            {/* Nếu người dùng đã đăng nhập, hiển thị icon giỏ hàng và avatar người dùng */}
+            <div className="flex items-center gap-6">
+              <Link
+                to="/pay"
+                className="text-white hover:text-yellow-400 transition duration-300"
+              >
+                <FiShoppingCart size={28} /> {/* Icon giỏ hàng */}
+              </Link>
+              <img
+                src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y" // Avatar mặc định từ Gravatar
+                alt="Profile"
+                className="w-12 h-12 rounded-full border-2 border-white shadow-lg cursor-pointer"
+                onClick={() => setIsMenuVisible(!isMenuVisible)} // Click vào avatar để toggle menu dropdown.
+              />
+            </div>
+            {/* Nếu menu dropdown được hiển thị, thêm một box menu */}
             {isMenuVisible && (
-              <div className="absolute right-[50%] translate-x-[50%] mt-2 bg-gray-800 p-2 shadow-lg rounded-lg">
+              <div className="absolute right-0 mt-3 bg-gray-800 p-3 shadow-lg rounded-lg w-32">
                 <button
-                  onClick={handleLogout}
-                  className="flex items-center justify-center p-3 hover:bg-red-600 hover:text-white rounded-full cursor-pointer transition duration-200 ease-in-out w-24 h-12"
+                  onClick={handleLogout} // Khi nhấn nút Logout, gọi handleLogout.
+                  className="flex items-center justify-center w-full p-2 text-white hover:bg-red-600 rounded-lg"
                 >
-                  <span>logout</span>  
-                    <FiLogOut size={20} />
+                  <FiLogOut size={20} className="mr-2" /> Logout
                 </button>
               </div>
             )}
           </div>
         ) : (
-          // Nếu chưa đăng nhập
+          // Nếu chưa đăng nhập, hiển thị các liên kết đăng nhập và đăng ký
           <>
-            <Link
-              to="/login"
-              className="no-underline mx-3 hover:text-green-400 duration-300"
-            >
+            <Link to="/login" className="hover:text-green-400 duration-300">
               LOGIN
             </Link>
-            <Link
-              to="/register"
-              className="no-underline mx-3 hover:text-green-400 duration-300"
-            >
+            <Link to="/register" className="hover:text-green-400 duration-300">
               REGISTER
             </Link>
           </>
