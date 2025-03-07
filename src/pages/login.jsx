@@ -42,11 +42,11 @@ export const Login = () => {
       const userRole = await getUserRole(user.uid);
       localStorage.setItem("isAuth", "true");
       localStorage.setItem("userRole", userRole);
-
+      
       Swal.fire({ title: "Login successful!", icon: "success" });
-
-      // Điều hướng theo role
-      userRole === "admin" ? navigate("/admin") : navigate("/");
+      
+      // Điều hướng luôn về trang chủ
+      navigate("/");      
     } catch (error) {
       Swal.fire({ icon: "error", title: "Login Failed", text: error.message });
     }
