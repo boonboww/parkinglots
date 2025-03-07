@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import Dashboard from "./dashboard";
 import User_admin from "./user_admin";
 import Settings from "./setting";
+import Help from "./help";
 
 function Main_admin() {
   return (
@@ -23,6 +24,7 @@ function Main_admin() {
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="useradmin" element={<User_admin />} />
           <Route path="settings" element={<Settings />} />
+          <Route path="help" element={<Help />} />
         </Routes>
       </main>
     </div>

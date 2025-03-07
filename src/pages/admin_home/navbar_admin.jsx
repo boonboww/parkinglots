@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FiHome, FiUsers, FiSettings, FiLogOut } from "react-icons/fi";
 import { IoIosArrowDown } from "react-icons/io";
 import { MdOutlineLiveHelp } from "react-icons/md";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { auth } from "../../firebaseConfig";
 import { signOut } from "firebase/auth";
 
@@ -10,6 +10,7 @@ function Navbar_admin() {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
   const [isMenuVisible, setIsMenuVisible] = useState(false); // Trạng thái điều khiển menu logout
+  const location = useLocation();
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -56,22 +57,38 @@ function Navbar_admin() {
 
         <nav className="flex-1 px-4 font-semibold text-[#9197B3]">
           <ul>
-            <li className="flex items-center gap-4 p-4 hover:bg-[#5932EA] hover:text-white  rounded-2xl cursor-pointer">
-              <Link to="/admin/dashboard" className="flex items-center gap-3">
+          <li className={`flex items-center gap-4 p-4 rounded-2xl cursor-pointer my-2 ${
+                location.pathname === "/admin/dashboard"
+                  ? "bg-[#5932EA] text-white"
+                  : "hover:bg-[#5932EA] hover:text-white"
+              }`}>
+              <Link to="/admin/dashboard" className="flex items-center gap-3 w-full">
                 <FiHome /> Dashboard
               </Link>
             </li>
-            <li className="flex items-center gap-4 p-4 hover:bg-[#5932EA] hover:text-white rounded-2xl cursor-pointer">
+            <li className={`flex items-center gap-4 p-4 rounded-2xl cursor-pointer my-2 ${
+                location.pathname === "/admin/useradmin"
+                  ? "bg-[#5932EA] text-white"
+                  : "hover:bg-[#5932EA] hover:text-white"
+              }`}>
               <Link to="/admin/useradmin" className="flex items-center gap-3">
                 <FiUsers /> Users
               </Link>
             </li>
-            <li className="flex items-center gap-4 p-4 hover:bg-[#5932EA] hover:text-white rounded-2xl cursor-pointer">
+            <li className={`flex items-center gap-4 p-4 rounded-2xl cursor-pointer my-2 ${
+                location.pathname === "/admin/settings"
+                  ? "bg-[#5932EA] text-white"
+                  : "hover:bg-[#5932EA] hover:text-white"
+              }`}>
               <Link to="/admin/settings" className="flex items-center gap-3">
                 <FiSettings /> Settings
               </Link>
             </li>
-            <li className="flex items-center gap-4 p-4 hover:bg-[#5932EA] hover:text-white  rounded-2xl cursor-pointer">
+            <li className={`flex items-center gap-4 p-4 rounded-2xl cursor-pointer my-2 ${
+                location.pathname === "/admin/help"
+                  ? "bg-[#5932EA] text-white"
+                  : "hover:bg-[#5932EA] hover:text-white"
+              }`}>
               <Link to="/admin/help" className="flex items-center gap-3">
                 <MdOutlineLiveHelp /> help
               </Link>

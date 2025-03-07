@@ -14,6 +14,7 @@ import Main_admin from "./pages/admin_home/main_admin";
 import Pay from "./pages/pay/pay";
 import Payment from "./pages/pay/payment";
 import Feedback from "./pages/feedback/feedback";
+import Help from "./pages/admin_home/help";
 
 function App() {
   return (
@@ -51,6 +52,7 @@ function AppRoutes() {
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="useradmin" element={<User_admin />} />
           <Route path="settings" element={<Settings />} />
+          <Route path="help" element={<Help />} />
         </Route>
       </Routes>
     </div>
