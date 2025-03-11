@@ -15,6 +15,7 @@ import Pay from "./pages/pay/pay";
 import Payment from "./pages/pay/payment";
 import Feedback from "./pages/feedback/feedback";
 import Help from "./pages/admin_home/help";
+import Map from "./pages/map/Map";
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function AppRoutes() {
         <Route path="/payment" element={<Payment />} />
           <Route path="/pay" element={<Pay />} />
           <Route path="/feedback" element={<Feedback />} />
+          <Route path="/Map" element={<Map />} />
 
         {/* Admin Routes */}
         <Route path="/admin" element={<Index_admin />}>

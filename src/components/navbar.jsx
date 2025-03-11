@@ -58,6 +58,9 @@ export const Navbar = () => {
         <Link to="/contact" className="hover:text-blue-700 duration-300">
           CONTACT
         </Link>
+        <Link to="/Map" className="hover:text-blue-700 duration-300">
+          MAP
+        </Link>
       </div>
       <div className="flex-1 flex justify-end items-center gap-5 pr-12 relative">
         {user ? (
@@ -88,7 +91,7 @@ export const Navbar = () => {
                 )}
                 <button
                   onClick={handleLogout}
-                  className="flex items-center justify-center w-full p-2 text-white hover:bg-red-600 rounded-lg"
+                  className="flex items-center  w-full p-2 text-white hover:bg-red-600 rounded-lg"
                 >
                   <FiLogOut size={20} className="mr-2" /> Logout
                 </button>
