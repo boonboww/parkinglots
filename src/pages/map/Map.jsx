@@ -1,26 +1,24 @@
 import React from "react";
-import { GoogleMap, LoadScript } from "@react-google-maps/api";
-
-const containerStyle = {
-  width: "100%",
-  height: "400px",
-};
-
-const center = {
-  lat: 16.054407,
-  lng: 108.202164,
-};
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
 
 const Map = () => {
+  const position = [16.0544, 108.2022]; // Tọa độ Đà Nẵng
+
   return (
-    <div className="w-screen h-[80vh]">
-      <LoadScript googleMapsApiKey="YOUR_GOOGLE_MAPS_API_KEY">
-        <GoogleMap
-          mapContainerStyle={containerStyle}
-          center={center}
-          zoom={8}
+    <div style={{ width: "100vw", height: "calc(100vh - 60px)" }}>
+      <MapContainer center={position} zoom={13} style={{ width: "100%", height: "100%" }}>
+        {/* Lớp nền bản đồ từ OpenStreetMap */}
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
-      </LoadScript>
+        
+        {/* Marker đánh dấu vị trí */}
+        <Marker position={position}>
+          <Popup>Đây là Đà Nẵng!</Popup>
+        </Marker>
+      </MapContainer>
     </div>
   );
 };
